@@ -1,0 +1,28 @@
+[
+  {
+    "username": "ria",
+    "progress": {
+      "cleancode": "10",
+      "golang baiscs": "100"
+    }
+  },
+  {
+    "username": "jiya",
+    "progress": {
+      "c++": "100"
+    }
+  },
+  {
+    "username": "milly",
+    "progress": {
+      "python": "0"
+    }
+  },
+  {
+    "username": "jenny",
+    "progress": {
+      "clean code": "20",
+      "golang": "100"
+    }
+  }
+]
