@@ -1,44 +1,20 @@
 [
   {
     "username": "riya",
-    "password": "$2a$10$G2/mXahQ6eONADnMYa2MCuGBAtZNKPyep.t9Q4IjD7HcgD4tejzra",
-    "favorite": "",
-    "address": ""
+    "password": "$2a$10$foBMOP4ANKQBVDSDL3ygK.tFkQvSz0I07gbmVEhmFuIuSO6j9uDL.",
+    "favorite": "music",
+    "address": "paramount"
   },
   {
     "username": "ria",
-    "password": "$2a$10$M8DPV6z0/JfVbzept7OZ6OaCzrpQBPDq3Vco3Fn4/ddLn0b68RQvO",
-    "favorite": "",
-    "address": ""
-  },
-  {
-    "username": "jiya",
-    "password": "$2a$10$387x7jZ.Y84T8eCsW6vIxeAtJHO1WmG/9lr6bAs5tnx6q/Thl9KL6",
-    "favorite": "",
-    "address": ""
-  },
-  {
-    "username": "tom",
-    "password": "$2a$10$1cm1ItgEUN6NHfAi3fBwQ.oyyynCsWQjJpuVK5To0zaZ84fvF6atK",
-    "favorite": "",
-    "address": ""
-  },
-  {
-    "username": "milly",
-    "password": "$2a$10$Fi9BxvfSStuAlWrMQ4CVA.6KxQs5kt0pS8t12mX7S2yW4D0DPZMgO",
-    "favorite": "",
-    "address": ""
-  },
-  {
-    "username": "jenny",
-    "password": "$2a$10$fZW/Jg3hTLN0iUd19UkPoOPUI12IaMmBDOf9C3neBuoEedjBdTOim",
-    "favorite": "l",
-    "address": "l"
-  },
-  {
-    "username": "jerry",
-    "password": "$2a$10$GYX9rd8PamEBimRzIA1cUOTtf5HLjRe7tyTHPyw0ffkkHvt53kkWq",
+    "password": "$2a$10$AVje6LblHU/sFNZ2n3PHbOLr3cobNWfKCxXpb9ypuAPDb.9lqv22W",
     "favorite": "dance",
     "address": "xyz"
+  },
+  {
+    "username": "jia",
+    "password": "$2a$10$F2q/XWO.loQIX7HaH.PpMOXVxR0B9ihGAmu8ifuNYuK/i8gtmvaK6",
+    "favorite": "x",
+    "address": "y"
   }
 ]

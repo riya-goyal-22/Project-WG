@@ -4,28 +4,38 @@ import (
 	"errors"
 	"fmt"
 	"golang.org/x/crypto/ssh/terminal"
-	"io"
 	"os"
-	"project/authentication"
 	"project/course"
+	"project/dailyStatus"
+	"project/login"
+	"project/profile"
+	"project/signUp"
 	"project/todo"
 	"project/utils"
+	"strings"
 )
 
+func init() {
+	EnterCond()
+}
 func main() {
-		EnterCond()
+	fmt.Println("===================================")
+	fmt.Println("\tWelcome")
+	fmt.Println("===================================")
 	for {
+		fmt.Println(strings.Repeat("-", 30))
+		fmt.Println("Choose an option :")
 		fmt.Println("1. Sign Up")
 		fmt.Println("2. Login")
 		fmt.Println("3. Exit")
 
-		choice := utils.ReadInput("Choose an option: ")
+		choice := utils.ReadInput("Your choice : ")
 
 		switch choice {
 		case "1":
-			fmt.Println("===============Sign Up================")
+			fmt.Println("\n===============Sign Up================")
 			username := utils.ReadInput("Enter username: ")
-			fmt.Print("Enter password: ")
+			fmt.Print("[\"password must be at least 8 characters long and must contain atleast one special character and number\"]\nEnter password: ")
 
 			// Check if the terminal is available
 			if !terminal.IsTerminal(int(os.Stdin.Fd())) {
@@ -39,13 +49,13 @@ func main() {
 			}
 			favorite := utils.ReadInput("\nWhat is your hobby: ")
 			address := utils.ReadInput("Enter address: ")
-			if err := authentication.SignUp(username, string(password), favorite, address); err != nil {
+			if err := signUp.SignUp(username, string(password), favorite, address); err != nil {
 				fmt.Println("Error:", err)
 			} else {
-				fmt.Println("Signup successful.")
+				fmt.Println("\nSignup successful.")
 			}
 		case "2":
-			fmt.Println("================Login=================")
+			fmt.Println("\n================Login=================")
 			username := utils.ReadInput("Enter username: ")
 			//password := utils.ReadInput("Enter password: ")
 			fmt.Print("Enter password: ")
@@ -55,29 +65,36 @@ func main() {
 				fmt.Println("No terminal detected.")
 				return
 			}
-
 			password, err := terminal.ReadPassword(int(os.Stdin.Fd()))
 			if err != nil {
 				fmt.Println("\nError reading password:", err)
 			}
-			if err, fav, address := authentication.Login(username, string(password)); err != nil {
+			if err := login.Login(username, string(password)); err != nil {
 				fmt.Println("Error:Invalid username or password.")
 			} else {
-				fmt.Println("---------Login successful---------")
-				fmt.Println("Name:", username)
-				fmt.Println("Your Address:", address)
-				fmt.Println("you like ", fav)
-				fmt.Println("")
+				fmt.Println("\n---------Login successful---------")
 				for {
-					fmt.Println("Enter 1 for todo and 2 for courses and 3 to exit")
-					choice := utils.ReadInput("Choose an option: ")
+					fmt.Println(strings.Repeat("-", 30))
+					fmt.Println("Enter your choice:")
+					fmt.Println("1. Manage Todos")
+					fmt.Println("2. Manage Courses")
+					fmt.Println("3. Daily Status")
+					fmt.Println("4. View Profile")
+					fmt.Println("5. Exit")
+					choice := utils.ReadInput("\nYour choice: ")
 					switch choice {
 					case "1":
 						todoCall(username)
 					case "2":
 						CourseCall(username)
 					case "3":
-
+						err := dailyStatus.ShowDailyStatus()
+						if err != nil {
+							fmt.Println("\nError showing daily status:", err)
+						}
+					case "4":
+						profile.Profile(username)
+					case "5":
 						os.Exit(0)
 					}
 				}
@@ -91,23 +108,30 @@ func main() {
 
 func todoCall(username string) {
 	for {
-		fmt.Println("==============To Do==============")
-		fmt.Println("enter 1 to add Todo,2 to list todo ,3 to delete todo and 4 to Go Back")
-		choice2 := utils.ReadInput("Choose an option:")
+		fmt.Println("\n==============To Do==============")
+		fmt.Println("Enter your choice :")
+		fmt.Println("1. Add todo")
+		fmt.Println("2. List todo")
+		fmt.Println("3. Delete todo")
+		fmt.Println("4. Go Back")
+		choice2 := utils.ReadInput("\nYour choice:")
 		switch choice2 {
 		case "1":
-			task := utils.ReadInput("Enter todo task: ")
+			task := utils.ReadInput("\nEnter todo task: ")
 			if err := todo.AddTodo(username, task); err != nil {
 				fmt.Println("Error:", err)
 			} else {
-				fmt.Println("Todo added.")
+				fmt.Println("\nTodo added.")
 			}
 		case "2":
 			if err := todo.ListTodos(username); err != nil {
 				fmt.Println("Error:", err)
 			}
 		case "3":
-			fmt.Println("Enter todo task to delete: ")
+			if err := todo.ListTodos(username); err != nil {
+				fmt.Println("Error:", err)
+			}
+			fmt.Println("\nEnter todo task to delete: ")
 			var del int
 			fmt.Scanln(&del)
 			if err := todo.DeleteTodo(username, del); err != nil {
@@ -123,14 +147,21 @@ func todoCall(username string) {
 
 func CourseCall(username string) {
 	for {
-		fmt.Println("==========Courses==========")
-		fmt.Println("Enter 1 to set course status , 2 to list course status and 3 for overall progress and 4 to Go Back")
-		choice3 := utils.ReadInput("Choose an option:")
+		fmt.Println("\n==========Courses==========")
+		fmt.Println("Enter your choice:")
+		fmt.Println("1. Set courses")
+		fmt.Println("2. List courses")
+		fmt.Println("3. Update courses")
+		fmt.Println("4. Delete courses")
+		fmt.Println("5. Overall Progress")
+		fmt.Println("6. Go Back")
+		choice3 := utils.ReadInput("\nYour choice:")
 		switch choice3 {
 		case "1":
-			coarseName := utils.ReadInput("Enter coarseName:")
-			progress := utils.ReadInput("Enter progress:")
-			err := course.SetCourseProgress(username, coarseName, progress)
+			coarseName := utils.ReadInput("\nEnter coarseName :")
+			progress := utils.ReadInput("Enter progress [done/pending] :")
+			cId := utils.ReadInput("Enter course id :")
+			err := course.SetCourseProgress(username, coarseName, progress, cId)
 			if err != nil {
 				fmt.Println("Error:", err)
 			}
@@ -140,8 +171,41 @@ func CourseCall(username string) {
 				fmt.Println("Error:", err)
 			}
 		case "3":
-			fmt.Println("Overall Progress:", course.OverallProgress(username))
+			err := course.ListCourseProgress(username)
+			if err != nil {
+				fmt.Println("Error:", err)
+			}
+			cId := utils.ReadInput("\nEnter coarseId :")
+			progress := utils.ReadInput("Enter progress [done/pending]:")
+			err = course.UpdateCourse(username, cId, progress)
+			if err != nil {
+				fmt.Println("Error:", err)
+			} else {
+				fmt.Println("\nCourse updated.")
+			}
+			err = course.ListCourseProgress(username)
+			if err != nil {
+				fmt.Println("Error:", err)
+			}
 		case "4":
+			err := course.ListCourseProgress(username)
+			if err != nil {
+				fmt.Println("Error:", err)
+			}
+			cId := utils.ReadInput("\nEnter coarseId :")
+			err = course.DeleteCourse(username, cId)
+			if err != nil {
+				fmt.Println("Error:", err)
+			} else {
+				fmt.Println("Course deleted.")
+			}
+		case "5":
+			progress, err := course.OverallProgress(username)
+			if err != nil {
+				fmt.Println("Error:", err)
+			}
+			fmt.Println("\nOverall Progress:", progress, "%")
+		case "6":
 			return
 		}
 	}
@@ -155,51 +219,7 @@ func EnterCond() {
 		err := errors.New("YOU ARE NOT A VALID USER !")
 		if err != nil {
 			fmt.Println("Error:", err)
+			os.Exit(0)
 		}
 	}
 }
-
-
-// readHiddenInput reads input from the user while masking the input with maskChar.
-func readHiddenInput(prompt string, maskChar rune) (string, error) {
-	fmt.Print(prompt)
-	var password []rune
-	//stdin := int(os.Stdin.Fd())
-
-	for {
-		ch, err := readSingleChar()
-		if err != nil {
-			return "", err
-		}
-
-		switch ch {
-		case '\n', '\r':
-			fmt.Println() // Move to the next line after Enter key
-			return string(password), nil
-		case 0x7F: // Handle backspace
-			if len(password) > 0 {
-				password = password[:len(password)-1]
-				fmt.Print("\b \b") // Erase the last masked character
-			}
-		default:
-			if ch >= 32 && ch <= 126 { // Printable ASCII characters
-				password = append(password, ch)
-				fmt.Print(string(maskChar))
-			}
-		}
-	}
-}
-
-// readSingleChar reads a single character from the standard input.
-func readSingleChar() (rune, error) {
-	buf := make([]byte, 1)
-	_, err := os.Stdin.Read(buf)
-	if err != nil {
-		if err == io.EOF {
-			return 0, io.EOF
-		}
-		return 0, err
-	}
-	return rune(buf[0]), nil
-}
-

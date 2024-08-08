@@ -1,7 +1,7 @@
 [
   {
-    "username": "riya",
-    "progress": {
+    "date": "2024-08-08",
+    "deleted_courses": {
       "1": {
         "golang": "done"
       }

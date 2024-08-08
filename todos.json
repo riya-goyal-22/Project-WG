@@ -1,34 +1,6 @@
 [
   {
     "username": "riya",
-    "tasks": [
-      "homework"
-    ]
-  },
-  {
-    "username": "ria",
-    "tasks": [
-      "eat"
-    ]
-  },
-  {
-    "username": "jiya",
-    "tasks": []
-  },
-  {
-    "username": "tom",
-    "tasks": [
-      "home"
-    ]
-  },
-  {
-    "username": "milly",
-    "tasks": [
-      "homie"
-    ]
-  },
-  {
-    "username": "jenny",
     "tasks": []
   }
 ]

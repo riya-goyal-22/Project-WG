@@ -53,21 +53,30 @@ func AddTodo(username, task string) error {
 	}
 
 	var userTodo *Todo
+	var userIndex int
+	found := false
+
+	// Find the existing user's Todo entry
 	for i, todo := range todos {
 		if todo.Username == username {
 			userTodo = &todos[i]
+			userIndex = i
+			found = true
 			break
 		}
 	}
 
-	if userTodo == nil {
+	// If no existing todo create new
+	if !found {
 		userTodo = &Todo{Username: username, Tasks: []string{}}
-		//todos = append(todos, *userTodo)
+		todos = append(todos, *userTodo)
+		userIndex = len(todos) - 1
 	}
 
+	// Add the new task to the user's Todo
 	userTodo.Tasks = append(userTodo.Tasks, task)
-	todos = append(todos, *userTodo)
-	//fmt.Println(userTodo.Tasks)
+	todos[userIndex] = *userTodo // Update the todos slice with the modified userTodo
+
 	return saveTodos(todos)
 }
 
@@ -80,10 +89,10 @@ func ListTodos(username string) error {
 	for _, todo := range todos {
 		if todo.Username == username {
 			if len(todo.Tasks) == 0 {
-				fmt.Println("No todos found.")
+				fmt.Println("\nNo todos found.")
 				return nil
 			}
-			fmt.Printf("Todos for %s:\n", username)
+			fmt.Printf("\nTodos for %s:\n", username)
 			for i, task := range todo.Tasks {
 				fmt.Printf("%d. %s\n", i+1, task)
 			}
